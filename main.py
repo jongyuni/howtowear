@@ -3,21 +3,22 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).resolve().parent
 
 app = FastAPI()
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    return templates.TemplateResponse(
+        "./index.html",
+        {"request": request, "title": "콜렉터 북북이"},
+    )
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
-@app.get("/items/{id}", response_class=HTMLResponse)
-async def read_item(request: Request, id:str):
-    return templates.TemplateResponse("./item.html", {"request": request, "id": id, "data": "hello world"})
+@app.get("/search", response_class=HTMLResponse)
+async def search(request: Request):
+    return templates.TemplateResponse(
+        "./index.html",
+        {"request": request, "title": "콜렉터 북북이"})
