@@ -18,7 +18,8 @@ async def root(request: Request):
 
 
 @app.get("/search", response_class=HTMLResponse)
-async def search(request: Request):
+async def search(request: Request, q: str):
     return templates.TemplateResponse(
         "./index.html",
-        {"request": request, "title": "콜렉터 북북이"})
+        {"request": request, "title": "콜렉터 북북이", "keyword": q},
+    )
