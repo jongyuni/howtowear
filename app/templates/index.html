@@ -1,26 +1,59 @@
-<html xmlns="http://www.w3.org/1999/html">
-    <head>
-        <title>{{ title }}</title>
-        <link href="https://unpkg.com/mvp.css" rel="stylesheet" />
-    </head>
-    <body>
-        <header>
-            <h1> 콜렉터 북북이</h1>
-        </header>
-        <center>
-            <form id="search_form" action="/search">
-                <input
-                    type="search"
-                    placeholder="keyword"
-                    id="search_input"
-                    name="q"
-                />
-                <button type="submit">검색</button>
-            </form>
-        </center>
-        </header>
-        <main>
-            {{ keyword }}
-        </main>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{title}}</title>
+    <link href="https://unpkg.com/mvp.css" rel="stylesheet" />
+  </head>
+  <style>
+    section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+  </style>
+  <body>
+    <header>
+      <h1>콜렉터스 북북이</h1>
+      <center>
+        <form id="search_form" action="/search">
+          <input
+            type="search"
+            placeholder="keyword"
+            id="search_input"
+            name="q"
+          />
+          <button type="submit">검색</button>
+        </form>
+      </center>
+    </header>
+    <main>
+      {% if books %}
+      <!-- 검색 결과가 있다면 -->
+      <center>
+        <h3 style="color: gray">{{books|length}}개 데이터 수집..</h3>
+      </center>
+      <section>
+        {% for book in books %}
+        <div>
+          <img src="{{book.image}}" width="150px" height="200px" />
+          <p>
+            {% if book.publisher|length > 10 %}
+            <!-- 출판사 이름이 10자 초과면 -->
+            {{book.publisher[:10]}}...
+            <!-- 출판사 이름이 10자 이하면 -->
+            {% else %} {{book.publisher}} {% endif %}
+          </p>
+          <p>{{book.discount}} 원</p>
+        </div>
+        {% endfor %}
+      </section>
+
+      <hr />
+      {{books}}
+      <!-- 검색 결과가 없다면 -->
+      {% else %}
+      <center><h3 style="color: gray">Please Input Keyword...</h3></center>
+      {% endif %}
+    </main>
+  </body>
 </html>
