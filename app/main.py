@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from app.models import mongodb
+from app.models.book import BookModel
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -12,6 +13,8 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
+    book = BookModel(keyword="파이썬", publisher="public", price=1000, image="test.png")
+    await mongodb.engine.save(book)
     return templates.TemplateResponse(
         "./index.html",
         {"request": request, "title": "콜렉터 북북이"},

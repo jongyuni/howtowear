@@ -9,11 +9,12 @@ class MongoDB:
 
     def connect(self):
         self.client = AsyncIOMotorClient(MONGO_URL)
-        self.engine = AIOEngine(motor_client=self.client, database=MONGO_DB_NAME)
+        self.engine = AIOEngine(client=self.client, database=MONGO_DB_NAME)
         print("successful connection with DB")
 
     def close(self):
         self.client.close()
+        print("successful disconnection with DB")
 
 
 mongodb = MongoDB()
